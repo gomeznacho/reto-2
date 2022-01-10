@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css">
+    <title>Reto 2</title>
+</head>
+<body>
+    <div class='container'>
+        <h1>Calculador de hipoteca</h1>
+
+        <div class="campos">
+            <label class="texto">Introduce el importe:</label>
+            <input type="number" class="input" name="importe" placeholder="0" id="dinero" >
+        </div>
+
+        <div class="campos">
+            <label class="texto">Introduce número de cuotas (meses)</label>
+            <input type="range" min="1" max="480" value="250" class="slider" id="myRange" list="lista1">
+            <datalist id="lista1">
+                <option value="12" label="1 año">
+                <option value="60" label="5 años">
+                <option value="120" label="10 años">
+                <option value="240" label="20 años">
+                <option value="360" label= "30 años">
+                <option value="480" label="40 años">
+            </datalist>
+            <label id="demo"></label>
+        </div>
+        <div class="campos">
+            <label class="texto">Introduce tipo de interés (porcentaje)</label>
+            <input type="range" min="1.0" max="15.0", step=0.1 value="7.5" class="slider" id="rango2">
+            <label id="vista2"></label>
+        </div>
+        <div>
+                <button id="calcular">Calcular</button>
+        </div>
+          <div class="resultado">	
+            <h2>Cuota mensual:</h2>
+            <div class="final"><span id="cuota"></span></div>		 			
+        </div>
+    </div>
+
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+    </script>
+    <script>
+        var slider2 = document.getElementById("rango2");
+        var output2 = document.getElementById("vista2");
+        output2.innerHTML = slider2.value;
+        
+        slider2.oninput = function() {
+          output2.innerHTML = this.value;
+        }
+    </script>
+    <script>
+        const inputImporte = document.getElementById("dinero");
+        const inputInteres = document.getElementById("rango2");
+        const inputMeses = document.getElementById("myRange");
+
+        const inputBoton = document.getElementById("calcular");
+
+        const outputCuota = document.getElementById("cuota");
+
+        inputBoton.addEventListener('click', calcular);
+
+        function calcular(){
+            const importe = parseInt(inputImporte.value);
+            const interesAnual = parseFloat(inputInteres.value);
+            const meses = parseInt(inputMeses.value);
+
+            const interes = (interesAnual/100) / 12;
+            
+            const cuota = importe / (((1 - (1+interes) ** - meses))/ interes);
+            
+            outputCuota.textContent = cuota.toFixed(2) + " €";
+        }
+    </script>
+    
+</body>
+</html>
